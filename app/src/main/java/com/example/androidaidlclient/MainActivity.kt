@@ -39,6 +39,38 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_send).setOnClickListener {
             iRemoteService?.doSomeThing(1000)
         }
+
+        findViewById<Button>(R.id.test_none_oneway_single_thread).setOnClickListener {
+            for (i in 0..5) {
+                Log.i("TAG", "call $i")
+                iRemoteService?.noneOneWayFunctionCall(i)
+            }
+        }
+
+        findViewById<Button>(R.id.test_oneway_single_thread).setOnClickListener {
+for (i in 0..5) {
+    Log.i("TAG", "call $i")
+    iRemoteService?.onewayFunctionCall(i)
+}
+        }
+
+        findViewById<Button>(R.id.test_none_oneway_multiple_thread).setOnClickListener {
+            for (i in 0..5) {
+                Log.i("TAG", "call $i")
+                Thread {
+                    iRemoteService?.noneOneWayFunctionCall(i)
+                }.start()
+            }
+        }
+
+        findViewById<Button>(R.id.test_oneway_multiple_thread).setOnClickListener {
+            for (i in 0..5) {
+                Log.i("TAG", "call $i")
+                Thread {
+                    iRemoteService?.onewayFunctionCall(i)
+                }.start()
+            }
+        }
     }
 
     private fun bindService(mConnection: ServiceConnection) {
